@@ -1,6 +1,6 @@
 import base64
 import os
-import logging
+
 from flask import Flask, request, render_template
 import hashlib  # Import hashlib for hash calculation
 
