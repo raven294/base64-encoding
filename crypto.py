@@ -1,11 +1,12 @@
 import base64
 import os
-
+import logging
 from flask import Flask, request, render_template
 import hashlib  # Import hashlib for hash calculation
 
 # Logging feature for errors
 def logging_file(log_filename):
+    # Configure the logging system to write logs to a file
     logging.basicConfig(filename=log_filename, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Function for encrypting files and outputting them as base64
@@ -30,7 +31,7 @@ def calculate_file_hash(file_path):
     sha256_hash = hashlib.sha256()
     with open(file_path, 'rb') as file:
         while True:
-            # Want to read in 64 KB chunks
+            # Read the file in 64 KB chunks
             data = file.read(65536)
             if not data:
                 break
@@ -55,9 +56,10 @@ def handle_file_upload(file):
 
 @app.route('/')
 def index():
+    # Render the HTML file for file upload
     return render_template('upload.html')
 
-@app.route('/upload', methods=['POST'])  
+@app.route('/upload', methods=['POST'])
 def upload_file():
     uploaded_file = request.files['file']
     result = handle_file_upload(uploaded_file)
